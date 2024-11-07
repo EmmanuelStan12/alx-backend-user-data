@@ -9,8 +9,6 @@ import mysql.connector
 
 
 PPI_FIELDS = ("name", "email", "phone", "ssn", "password")
-extract = lambda x, y: r'(?P<field>{})=[^{}]*'.format('|'.join(x), y)
-replace = lambda x: r'\g<field>={}'.format(x)
 
 
 def filter_datum(
@@ -21,7 +19,9 @@ def filter_datum(
 ) -> str:
     """Use a regex to replace occurrences for values
     """
-    return re.sub(extract(fields, seperator), replace(redaction), message)
+    extract = r'(?P<field>{})=[^{}]*'.format('|'.join(fields), seperator)
+    replace = r'\g<field>={}'.format(redaction)
+    return re.sub(extract, replace, message)
 
 
 def get_logger() -> logging.Logger:
@@ -57,7 +57,7 @@ def main() -> None:
     """Retrieves row from a db and logs it.
     """
     cols = ["name", "email", "phone", "ssn",
-              "password", "ip", "last_login", "user_agent"]
+            "password", "ip", "last_login", "user_agent"]
     fields = ','.join(cols)
     query = "SELECT {} FROM users;".format(fields)
     logger = get_logger()
