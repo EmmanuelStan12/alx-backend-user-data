@@ -6,9 +6,10 @@ import logging
 from typing import List
 import re
 import mysql.connector
+import os
 
 
-PPI_FIELDS = ("name", "email", "phone", "ssn", "password")
+PII_FIELDS = ("name", "email", "phone", "ssn", "password")
 
 
 def extract(fields: str, separator: str) -> str:
@@ -100,3 +101,7 @@ class RedactingFormatter(logging.Formatter):
         msg = super(RedactingFormatter, self).format(record)
         result = filter_datum(self.fields, self.REDACTION, msg, self.SEPARATOR)
         return result
+
+
+if __name__ == "__main__":
+    main()
