@@ -11,17 +11,24 @@ import mysql.connector
 PPI_FIELDS = ("name", "email", "phone", "ssn", "password")
 
 
+def extract(fields: str, separator: str) -> str:
+    """Extract fields and separator
+    """
+    return r'(?P<field>{})=[^{}]*'.format('|'.join(fields), separator)
+
+
+def replace(redaction: str) -> str:
+    """Return replacements with redaction
+    """
+    return r'\g<field>={}'.format(redaction)
+
+
 def filter_datum(
-        fields: List[str],
-        redaction: str,
-        message: str,
-        seperator: str
+        fields: List[str], redaction: str, message: str, separator: str
 ) -> str:
     """Use a regex to replace occurrences for values
     """
-    extract = r'(?P<field>{})=[^{}]*'.format('|'.join(fields), seperator)
-    replace = r'\g<field>={}'.format(redaction)
-    return re.sub(extract, replace, message)
+    return re.sub(extract(fields, separator), replace(redaction), message)
 
 
 def get_logger() -> logging.Logger:
