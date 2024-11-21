@@ -77,7 +77,7 @@ class Auth:
             return None
         return None
 
-    def destroy_session(user_id: str) -> None:
+    def destroy_session(self, user_id: int) -> None:
         """Destroys session of a user
         """
         if user_id is None:

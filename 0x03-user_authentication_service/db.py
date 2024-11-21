@@ -58,7 +58,7 @@ class DB:
         except Exception:
             raise NoResultFound
 
-    def update_user(self, user_id: int, **kwargs):
+    def update_user(self, user_id: int, **kwargs) -> None:
         """Update a user's attributes in the database.
         """
         user = self.find_user_by(id=user_id)
