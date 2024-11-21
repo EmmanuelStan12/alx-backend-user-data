@@ -63,11 +63,16 @@ class DB:
         """
         user = self.find_user_by(id=user_id)
 
+        if user is None:
+            return
         valid_columns = User.__table__.columns.keys()
         invalid_keys = [key for key in kwargs if key not in valid_columns]
         if invalid_keys:
             raise ValueError
         for key, value in kwargs.items():
             setattr(user, key, value)
-
+        self._session.query(User).filter(User.id == user_id).update(
+            kwargs,
+            synchronize_session=False,
+        )
         self._session.commit()
