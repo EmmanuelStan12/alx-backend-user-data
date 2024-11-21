@@ -17,7 +17,7 @@ def home():
 
 
 @app.route('/users', methods=['POST'], strict_slashes=False)
-def users():
+def users() -> str:
     """Registers a user with email and password.
     """
     email = request.form.get('email')
@@ -77,7 +77,7 @@ def get_reset_password_token() -> str:
     email = request.form.get('email')
     reset_token = None
     try:
-        reset_token = auth.get_reset_password_token(email)
+        reset_token = AUTH.get_reset_password_token(email)
     except ValueError:
         reset_token = None
     if reset_token is None:
