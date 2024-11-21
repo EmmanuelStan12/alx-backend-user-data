@@ -1,0 +1,6 @@
+main-*.py
+__pycache__/
+*_main.py
+*-main.py
+venv/
+main.py
