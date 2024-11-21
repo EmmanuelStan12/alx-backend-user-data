@@ -44,7 +44,7 @@ class DB:
             self._session.rollback()
         return None
 
-    def find_user_by(self, **kwargs):
+    def find_user_by(self, **kwargs) -> User:
         """Find the first user that matches the args.
         """
         valid_columns = User.__table__.columns.keys()
